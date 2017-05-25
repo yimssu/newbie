@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.persistence.NewbieDAO">
+
+	<select id="getTime" resultType="String">
+		select now()
+	</select>
+
+	<select id="getList" parameterType="org.zerock.domain.Criteria"
+		resultType="org.zerock.domain.NewbieVO">
+		select * from tbl_newbie where sno>0
+		<include refid="search"></include>
+		order by sno desc limit #{skip},#{amount}
+
+	</select>
+
+	<select id="getTotal" resultType="Integer">
+		select count(*) from tbl_newbie
+	</select>
+
+	<insert id="create" parameterType="org.zerock.domain.NewbieVO">
+		insert into tbl_newbie
+		(title,content,writer) values (#{title}, #{content}, #{writer})
+	</insert>
+
+	<select id="view" parameterType="Integer" resultType="org.zerock.domain.NewbieVO">
+		select *
+		from tbl_newbie where sno = #{sno}
+	</select>
+	
+	<select id = "delete" parameterType="Integer">
+	delete from tbl_newbie where sno = #{sno}
+	</select>
+	
+	<select id="modify" parameterType="org.zerock.domain.NewbieVO">
+	update tbl_newbie set title = #{title}, content = #{content}, writer = #{writer} , updatedate = #{updatedate} where sno=#{sno} 
+	</select>
+
+	<select id="listCount" parameterType="org.zerock.domain.Criteria"
+		resultType="Integer">
+		select count(sno) from tbl_newbie where sno > 0
+		<include refid="search"></include>
+	</select>
+
+	<sql id="search">
+		<if test="keyword != null">
+			<choose>
+				<when test='type == "n"'> and title like concat ('%', #{keyword}, '%')
+				</when>
+				<when test='type == "c"'> and writer like concat ('%', #{keyword}, '%')
+				</when>
+			</choose>
+		</if>
+	</sql>
+
+
+
+
+
+
+
+	<insert id="addFile">
+	insert into tbl_file(fname, sno) values (#{fname}, (select max(sno) from tbl_newbie where sno>0))
+	</insert>
+	
+		<select id="fileList" parameterType="Integer" resultType="String">
+		select fname from tbl_file where sno=#{sno} order by regdate
+	</select>
+
+	<delete id="delAll" >
+	delete from tbl_file where sno = #{sno}
+	</delete>
+
+
+</mapper>
