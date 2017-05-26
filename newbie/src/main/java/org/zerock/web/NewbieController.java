@@ -50,10 +50,8 @@ public class NewbieController {
 	@PostMapping("/write")
 	public String realRegister(NewbieVO vo) throws Exception {
 		
-		
-		
 		service.register(vo);
-		System.out.println(vo);
+		//System.out.println("writer 데이터"+vo);
 				
 		return "redirect:/store/list?msg=success";
 	}
@@ -82,7 +80,7 @@ public class NewbieController {
 	@PostMapping("/modify")
 	public String postUpdate(NewbieVO vo, @ModelAttribute("cri") Criteria cri, Model model) throws Exception {
 		service.modify(vo);
-		logger.info(cri);
+	//	logger.info(cri);
 		model.addAttribute("page", cri.getPage());
 		model.addAttribute("type", cri.getType());
 		model.addAttribute("keyword", cri.getKeyword());

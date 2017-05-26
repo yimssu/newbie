@@ -162,21 +162,23 @@
 
 <script>
 	$(document).ready(
+			
+			
 			function(event) {
 
 				var filearr = new Array();
 				
+				//글등록 확인 버튼
 				$("#subBtn").on("click",function(e) {
-							e.preventDefault();
+						e.preventDefault();
 							
-							if ($("#write").val() == ""|| $("#title").val() == ""|| $("#con").val() == "") {
-								alert("값을 모두 입력하세요^^");
-							} else {
-										$("#c").val(filearr);
-										$("#demo-form2").submit();
-									}
-								
-								
+						if ($("#write").val() == ""|| $("#title").val() == ""|| $("#con").val() == "") {
+							alert("값을 모두 입력하세요^^");
+						} else {
+							$("#c").val(filearr);
+							$("#demo-form2").submit();
+								}
+							
 							});
 						
 				
@@ -195,7 +197,7 @@
 				  
 				    
 				    formData.append("file", fileData);
-					
+				
 					
 				    $.ajax({
 				    	url: "/file/upload",
@@ -206,35 +208,51 @@
 				    	success:function(result){
 				    		console.log("upload completed........")
 				    	
-				    		
 				    		//var str = "<li><img src='/file/display?fileName="+result+"'><button >삭제</button></li>";
 				    		
-				    		var str =  "<li><img src='/file/display?fileName="+result+"'>&nbsp;&nbsp;<a class='fa fa-close'></a></li>";
-				    		//var str2 = "<input type='hidden' name='file' value='"+ result +"'>";
+				    		var str =  "<li><img name = '"+ result +"'src='/file/display?fileName="+result+"'>&nbsp;&nbsp;<a class='fa fa-close'></a></li>";
+				    	
 				    		$("#uploadedList").append(str);
-				    		//$("#demo-form2").append(str2);
+				    
 				    		filearr.push(result);
-				    		
 				    	}
-				    
-				    
+				  
 				    });
 				    
 				    $("#myModal").modal("hide");
 				    
 				});
 				
-				//썸넬 들어가는 ul태크
-				/* $(".uploadedList").on("click", "button", function(e){
-				
-				}); */
 				
 				
 				
+				//썸넬 들어가는 ul태크 x버튼(글등록전 삭제)
+				  $("#uploadedList").on("click", "li a", function(e){
+				
+									 
+					 var that = $(e.target);
+					 
+					 //섬넬 파일이름
+					var thumb =  that.prev()[0].name;
+					 
+         			 that.parent().remove();
+         			 
+         			
+         		 	$.ajax({
+						url: "/file/delete",
+						type: "get",
+						data: {"thumbName": thumb},
+        				dataType:"text",
+        				success:function(result){
+        					
+    	            		console.log("삭제된당");
+    	            		
+    	            		
+					        } 
+         				});   
 				
 				
-				
-				
+			});
 			});
 </script>
 

@@ -246,9 +246,9 @@
 											<th></th>
 										</tr>
 									</thead>
+									
 									<tbody id="replies">
 								
-										
 									</tbody>
 									
 																	
@@ -302,7 +302,8 @@
 						//console.log(data);
 						
 						var str = "";
-				
+						
+						//댓글 리스트 불러오기
 						$(data).each(function() {
 								
 							for (var i = 0, len = data.list.length; i < len; i++) {
@@ -324,16 +325,8 @@
 						
 							$("#replies").html(str);
 						
-							
-							
-							
-							//var pager = data.pageMaker;
-							
+							// 댓글 페이징 하는거
 							$(data.pageMaker).each(function(){
-								
-								console.log("aaaaaaa" + data.pageMaker.start);
-								
-							
 								
 								var str2 = "";
 								
@@ -341,12 +334,10 @@
 									str2 += "<li><a href='" + (data.pageMaker.start - 1)
 											+ "'> << </a></li>";
 								}
-
 								for (var i = data.pageMaker.start, len = data.pageMaker.end; i <= len; i++) {
 									var strClass = data.pageMaker.cri.page == i ? 'class=active' : '';
 									str2 += "<li "+strClass+"><a href='"+i+"'>" + i + "</a></li>";
 								}
-
 								if (data.pageMaker.next) {
 									str2 += "<li><a href='" + (data.pageMaker.end + 1)
 											+ "'> >> </a></li>";
@@ -364,7 +355,7 @@
 				refreshList();
 
 				
-				
+				// 파일 미리보기 보여주기(파일 리스트 가지고오기)
 			 	 function getFile(snoData){
 					
 					var fileList = $(".fileList");
@@ -381,8 +372,6 @@
 							fileList.contents().remove();
 							
 							for(var i=0; i < result.length; i++){
-								
-								
 								
 								 var str="<li style='list-style-type: none'><img name='"+result[i]+"'src='/file/display?fileName="
 										+result[i]+"'></li></br>"; 
@@ -406,38 +395,37 @@
 				});
 				
 				
-					
+					// 글 삭제 버튼
 				$("#delBtn").on("click", function(e) {
 					e.preventDefault();
 					
-					
+								
 				 	   $(".fileList img").each(function(i){
-				 		deleteFileList += "&thumbName=" + $(".fileList img")[i].name;
-				 		deleteFileList += "&thumbName=" + $(".fileList img")[i].name.replace("_", "_s_");
-					});   
-					
+				 		 deleteFileList += "&thumbName=" + $(".fileList img")[i].name.replace("_", "_s_");
+					});
+				 	   
+				 	   
 					$.ajax({
 						url: "/file/delete",
 						type: "get",
 						data: deleteFileList
-					}); 
+					});
 					
 				
 					$("#a1").submit();
 					alert("삭제완료^^");
-					//});
 				});
 
-				$("#modBtn").on(
-						"click",
-						function(e) {
+	
+				//글 수정 버튼
+				$("#modBtn").on("click",function(e) {
 							e.preventDefault();
 
 							$("#a1").attr("action", "/store/modify").attr(
 									"method", "get").submit();
-
 						});
 
+				// 글 목록 버튼
 				$("#goList").on(
 						"click",
 						function(e) {
@@ -447,10 +435,12 @@
 
 						});
 
+				//댓글쓰기 버튼
 				$("#modalBtn").click(function() {
 					$("#myModal").modal("toggle");
 				});
 				
+				//댓글 리스트 불러오기
 				$("#replies").on("click","tr td ul li .modify-link", function (e) {
 					var replyerObj = $("#newReplyWriter2");
 					var replytextObj = $("#newReplyText2");
@@ -466,7 +456,7 @@
 				});
 				
 				
-				
+				//댓글 등록 버튼
 				$("#replyAddBtn").on("click", function (e) {
 					e.preventDefault();
 					var replyerObj = $("#newReplyWriter");
@@ -502,6 +492,8 @@
 					
 				});
 	
+				
+				//댓글 수정
 				$("#replyAddBtn2").on("click",function (e) {
 					e.preventDefault();
 					var replyerObj = $("#newReplyWriter2");
@@ -536,6 +528,8 @@
 					
 				});
 				
+				
+				//댓글 삭제
 				  $("#replies").on("click","tr td ul li .close-link", function (e) {
 					e.preventDefault();
 					var rno = ($(this).parent().parent().parent().parent().children().first().attr("data-rno"));

@@ -57,10 +57,10 @@ public class FileController {
 	
 	@PostMapping(name = "/upload", produces = "text/plain;charset=UTF-8")
 	 public String uploadPost(@RequestParam("file") MultipartFile file) throws Exception{
-	      System.out.println("upload post....");
-	        System.out.println("getName : " +file.getName());
+	     
+	       // System.out.println("getName : " +file.getName());
 	        System.out.println("getOriginalFileName : " +file.getOriginalFilename());
-	        System.out.println("size : " + file.getSize());
+	        //System.out.println("size : " + file.getSize());
 	        
 	        UUID uid =UUID.randomUUID(); //파일이름중복안되게
 	        
@@ -89,12 +89,13 @@ public class FileController {
 		
 		for(String thumbName : deleteList){
 			
-			logger.info("fileName-------" + thumbName);
+			//섬넬 이름
+			//logger.info("fileName-------" + thumbName);
 			
 			//원본
 			String name = thumbName;
 			//썸넬
-			String name2 = thumbName.replace("_", "_s_");
+			String name2 = thumbName.replace("_s_", "_");
 			
 			//원본
 			String filePath = "C:\\zzz\\upload\\"+ name;
@@ -104,15 +105,9 @@ public class FileController {
 			File file = new File(filePath);
 			File file2 = new File(filePath2);
 			
-			logger.info("파일~~~~~~~~~~~~~~"+file);
-			logger.info(file2);
-			
 			file.delete();
 			file2.delete();
 		
-			logger.info("삭제~~~~~~~~~~~~~~"+file);
-			logger.info(file2);
-			
 		
 	}
 	
