@@ -1,11 +1,11 @@
 package org.zerock.persistence;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
-import org.apache.ibatis.session.SqlSession;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import org.zerock.domain.Criteria;
@@ -106,6 +106,31 @@ public class NewbieDAOImpl implements NewbieDAO {
 		sess.delete(namespace + ".delAll", sno);
 		
 	}
+
+
+
+	@Override
+	public void delFile(String fname) throws Exception {
+		sess.delete(namespace + ".delFile", fname);
+		
+	}
+
+
+
+	@Override
+	public void attFile(String fname, Integer sno) throws Exception {
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("sno", sno);
+		paramMap.put("fname", fname);
+		
+		sess.insert(namespace + ".attFile", paramMap);
+		
+	}
+
+
+
+
 
 	
 	

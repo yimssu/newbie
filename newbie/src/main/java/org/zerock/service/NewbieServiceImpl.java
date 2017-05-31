@@ -41,7 +41,7 @@ public class NewbieServiceImpl implements NewbieService {
 		
 		for(String thumbName : files){
 			
-			String fileName = thumbName.replace("_s", "");
+			String fileName = thumbName.replace("_s_", "_");
 			
 			dao.addFile(fileName);
 		}
@@ -71,15 +71,35 @@ public class NewbieServiceImpl implements NewbieService {
 	}
 
 	@Override
+	@Transactional
 	public void modify(NewbieVO vo) throws Exception {
 		dao.modify(vo);
 		
+		Integer sno = vo.getSno();
+		
+		String[] files = vo.getFiles();
+		
+		if(files == null){return;}
+		
+		for(String fname : files){
+			
+			String fileName = fname.replace("_s_", "_");
+			
+			dao.attFile(fileName, sno);
+			
+			}
 	}
 
 	@Override
 	public List<String> fileList(Integer sno) throws Exception {
 	
 		return dao.fileList(sno);
+	}
+
+	@Override
+	public void delFile(String fname) throws Exception {
+		dao.delFile(fname);
+		
 	}
 
 

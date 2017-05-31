@@ -101,6 +101,7 @@
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal">&times;</button>
 											<h4 class="modal-title">File Upload</h4>
+										
 										</div>
 
 
@@ -119,7 +120,7 @@
 										<div class="modal-footer">
 											<button type="button" id="modalAddBtn"
 												class="btn btn-success">Save</button>
-											<button type="button" class="btn btn-default"
+											<button id="modClose" type="button" class="btn btn-default"
 												data-dismiss="modal">Close</button>
 										</div>
 									</div>
@@ -167,6 +168,7 @@
 			function(event) {
 
 				var filearr = new Array();
+				var deleteFileList = "dummy=";
 				
 				//글등록 확인 버튼
 				$("#subBtn").on("click",function(e) {
@@ -192,6 +194,11 @@
 				//모달창에서 파일 등록하기 버튼
 				$("#modalAddBtn").click(function(){
 					
+					
+					if($("#file").val() == ""){
+						alert("파일을 선택해주세요^^")
+					}else{
+					
 				    var formData = new FormData();
 					var fileData = $("#file")[0].files[0];
 				  
@@ -199,6 +206,7 @@
 				    formData.append("file", fileData);
 				
 					
+				    
 				    $.ajax({
 				    	url: "/file/upload",
 				    	type: "post",
@@ -206,38 +214,57 @@
 				    	processData:false,
 						contentType:false,
 				    	success:function(result){
-				    		console.log("upload completed........")
+				    		//console.log("upload completed........")
 				    	
 				    		//var str = "<li><img src='/file/display?fileName="+result+"'><button >삭제</button></li>";
 				    		
-				    		var str =  "<li><img name = '"+ result +"'src='/file/display?fileName="+result+"'>&nbsp;&nbsp;<a class='fa fa-close'></a></li>";
+				    		var str =  "<li id='file1'><img name = '"+ result +"'src='/file/display?fileName="+result+"'>&nbsp;&nbsp;<a class='fa fa-close'></a></li>";
 				    	
 				    		$("#uploadedList").append(str);
 				    
 				    		filearr.push(result);
+				    		  
+				    		
+				    $('#file').val('');
+				    
+				    
 				    	}
 				  
 				    });
 				    
+				 
 				    $("#myModal").modal("hide");
 				    
+					}
 				});
 				
-				
+				//모달 취소버튼
+			    $("#modClose").click(function(){
+			    	$('#file').val('');
+			    });
+			    
 				
 				
 				//썸넬 들어가는 ul태크 x버튼(글등록전 삭제)
 				  $("#uploadedList").on("click", "li a", function(e){
 				
-									 
 					 var that = $(e.target);
 					 
 					 //섬넬 파일이름
 					var thumb =  that.prev()[0].name;
+				
 					 
-         			 that.parent().remove();
-         			 
+         			that.parent().remove();
          			
+         			// <li>테그 삭제
+         			 for (i = filearr.length; i--;) { //뒤에서부터 배열을 탐색 
+         				if (filearr[i] == thumb) {
+         					filearr.splice(i, 1); }
+         			}
+ 				
+         			//console.log("으아: "+that.parent());
+         			
+         		   
          		 	$.ajax({
 						url: "/file/delete",
 						type: "get",
@@ -245,14 +272,14 @@
         				dataType:"text",
         				success:function(result){
         					
+        					//$(this).parent().remove();
     	            		console.log("삭제된당");
     	            		
     	            		
 					        } 
          				});   
-				
-				
-			});
+         		  
+				});
 			});
 </script>
 

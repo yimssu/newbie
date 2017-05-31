@@ -30,4 +30,9 @@ public interface NewbieDAO {
 	public List<String> fileList(Integer sno) throws Exception;
 	
 	public void delAll(Integer sno) throws Exception;
+	
+	public void delFile(String fname) throws Exception;
+	
+	public void attFile(String fname, Integer sno)throws Exception;
+	
 }

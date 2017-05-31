@@ -73,6 +73,14 @@
 	<delete id="delAll" >
 	delete from tbl_file where sno = #{sno}
 	</delete>
+	
+	<delete id = "delFile">
+	delete from tbl_file where fname=#{fname}
+	</delete>
+
+	<insert id="attFile">
+	insert into tbl_file(fname, sno) values (#{fname}, #{sno})
+	</insert>
 
 
 </mapper>

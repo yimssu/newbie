@@ -29,6 +29,8 @@ import org.zerock.service.NewbieService;
 public class FileController {
 	
 	private static final Logger logger = Logger.getLogger(FileController.class);
+	
+
 
 	@Inject
 	NewbieService service;
@@ -84,7 +86,7 @@ public class FileController {
 	
 	@GetMapping("/delete")
 	public void fileDelete(@RequestParam(value="thumbName",required=false) List<String> deleteList){
-		
+		//value="thumbName" -> jsp에서 받아오는 값, thumbName이라고 쓰여있는 애들만 받아올수있게 , required=false -> 파라미터(deleteList)가 없어도 로직 실행되게하려고
 	if(deleteList == null){return;}
 		
 		for(String thumbName : deleteList){
@@ -92,14 +94,14 @@ public class FileController {
 			//섬넬 이름
 			//logger.info("fileName-------" + thumbName);
 			
-			//원본
-			String name = thumbName;
 			//썸넬
+			String name = thumbName;
+			//원본
 			String name2 = thumbName.replace("_s_", "_");
 			
-			//원본
-			String filePath = "C:\\zzz\\upload\\"+ name;
 			//썸넬
+			String filePath = "C:\\zzz\\upload\\"+ name;
+			//웑본
 			String filePath2 = "C:\\zzz\\upload\\"+ name2;
 			
 			File file = new File(filePath);
@@ -107,6 +109,14 @@ public class FileController {
 			
 			file.delete();
 			file2.delete();
+			
+			
+			try {
+				service.delFile(name2);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		
 		
 	}

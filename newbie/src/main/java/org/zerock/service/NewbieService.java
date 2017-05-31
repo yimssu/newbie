@@ -24,5 +24,6 @@ public interface NewbieService {
 	
 	
 	public List<String> fileList(Integer sno) throws Exception;
+	public void delFile(String fname) throws Exception;
 	
 }

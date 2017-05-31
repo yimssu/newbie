@@ -110,15 +110,6 @@
 				
 				
 				
-				
-				
-				
-				
-				
-				
-				
-				
-				
 				<form id="a1" method="post">
 				
 					<input type="hidden" id="hsno" name="sno" value="${vo.sno}">
@@ -163,7 +154,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" id="replyAddBtn"
-										class="btn btn-danger saveBtn">Save</button>
+										class="btn btn-primary">Save</button>
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
 								</div>
@@ -171,9 +162,9 @@
 
 						</div>
 					</div>
-					<!--end Modal  -->
+					<!-----------------end Modal  --------------->
 					
-					<!-- Modal2 -->
+					<!----------------- Modal2 ----------------->
 					<div class="modal fade" id="myModal2" role="dialog">
 						<div class="modal-dialog">
 
@@ -201,7 +192,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" id="replyAddBtn2"
-										class="btn btn-danger saveBtn">Save</button>
+										class="btn btn-primary">Save</button>
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">Close</button>
 								</div>
@@ -310,17 +301,19 @@
 								
 								console.log(data.list[i]);
 								
-								str += "<tr><td data-rno =" + data.list[i].rno +">"
+							 	str += "<tr><td data-rno =" + data.list[i].rno +">"
 										+ data.list[i].rno + "</td>" + "<td>" + data.list[i].replytext + "</td>"
 										+ "<td>" + data.list[i].replyer + "</td>" + "<td>"
-										+ data.list[i].regdate + "</td>"+ "<td>" 
+										+ data.list[i].regdate+ "</td>"+ "<td>" 
 										
 										+'<ul class="nav navbar-right panel_toolbox">'
 										+'<li><a class="modify-link"><i class="fa fa-wrench"></i></a></li>'
 										+'<li><a class="close-link"><i class="fa fa-close"></i></a></li>'
 									    +'</ul>'
-										+ "</td></tr>"
-							
+										+ "</td></tr>" 
+										
+
+									
 							};
 						
 							$("#replies").html(str);
@@ -367,7 +360,7 @@
 						data: snoData,
 						success: function(result){
 							
-							console.log(fileList.contents());
+							//console.log(fileList.contents());
 							
 							fileList.contents().remove();
 							
@@ -387,7 +380,7 @@
 				$(".pagination").on("click","li a", function(e){
 					e.preventDefault();
 					page = $(this).attr("href");
-					console.log($(this).attr("href"));
+					
 					
 					refreshList(page);
 					
@@ -451,7 +444,7 @@
 					replyerObj.val(replyer);
 					
 					rno = ($(this).parent().parent().parent().parent().children().first().attr("data-rno"));
-					console.log(rno);
+					//console.log(rno);
 					$("#myModal2").modal("toggle");
 				});
 				
@@ -464,8 +457,8 @@
 					var replyer = replyerObj.val();
 					var replytext = replytextObj.val();
 					var sno = ${vo.sno};
-					console.log(replyer);
-					console.log(replytext);
+					//console.log(replyer);
+					//console.log(replytext);
 					$.ajax({
 						type:'post',
 						url:'/replies/' + sno,
@@ -501,8 +494,8 @@
 					var replyer = replyerObj.val();
 					var replytext = replytextObj.val();
 					
-					console.log(replyer);
-					console.log(replytext);
+					//console.log(replyer);
+					//console.log(replytext);
 					$.ajax({
 						type:'put',
 						url:'/replies/' + rno,
@@ -533,7 +526,7 @@
 				  $("#replies").on("click","tr td ul li .close-link", function (e) {
 					e.preventDefault();
 					var rno = ($(this).parent().parent().parent().parent().children().first().attr("data-rno"));
-					console.log(rno);
+					//console.log(rno);
 					$.ajax({
 						type:'delete',
 						url:'/replies/' + rno,

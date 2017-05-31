@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.zerock.domain.Criteria;
 import org.zerock.domain.NewbieVO;
 import org.zerock.domain.PageMaker;
-import org.zerock.domain.dddVO;
 import org.zerock.service.NewbieService;
 import org.zerock.service.ReplyService;
 
